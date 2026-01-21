@@ -1,7 +1,11 @@
+import Todos from '../components/Todos';
+
 const Homepage = () => {
   return (
-    <div>Homepage</div>
-  )
-}
+    <div className='my-3'>
+      <Todos />
+    </div>
+  );
+};
 
-export default Homepage
+export default Homepage;

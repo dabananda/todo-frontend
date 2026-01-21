@@ -9,16 +9,18 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      <Routes>
-        <Route
-          path="/"
-          element={<Homepage />}
-        />
-        <Route
-          path="/todos"
-          element={<Homepage />}
-        />
-      </Routes>
+      <div className='container'>
+        <Routes>
+          <Route
+            path="/"
+            element={<Homepage />}
+          />
+          <Route
+            path="/todos"
+            element={<Homepage />}
+          />
+        </Routes>
+      </div>
       <Footer />
     </BrowserRouter>
   )
