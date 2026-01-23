@@ -1,12 +1,42 @@
 import { useEffect, useState } from 'react';
-import { getTodos } from '../services/TodoService';
+import { completeTodo, deleteTodo, getTodos, inCompleteTodo } from '../services/TodoService';
+import { useNavigate } from 'react-router-dom';
 
 const Todos = () => {
   const [todos, setTodos] = useState([]);
 
+  const navigator = useNavigate();
+
   function getAllTodos() {
     getTodos()
       .then((response) => setTodos(response.data))
+      .catch((error) => console.error(error));
+  }
+
+  function handleDeleteTodo(id) {
+    deleteTodo(id)
+      .then((response) => {
+        console.log(response.data);
+        getAllTodos();
+      })
+      .catch((error) => console.error(error));
+  }
+
+  function handleInCompleteTodo(id) {
+    inCompleteTodo(id)
+      .then((response) => {
+        console.log(response.data);
+        getAllTodos();
+      })
+      .catch((error) => console.error(error));
+  }
+
+  function handleCompleteTodo(id) {
+    completeTodo(id)
+      .then((response) => {
+        console.log(response.data);
+        getAllTodos();
+      })
       .catch((error) => console.error(error));
   }
 
@@ -18,16 +48,21 @@ const Todos = () => {
     <div>
       <div className='d-flex justify-content-between mb-2'>
         <h3>All Todos</h3>
-        <button className='btn btn-primary'>Add Todo</button>
+        <button
+          className='btn btn-primary'
+          onClick={() => navigator('/add-todo')}
+        >
+          Add Todo
+        </button>
       </div>
       <table className='table border table-striped'>
         <thead>
           <tr>
-            <td>Id</td>
-            <td>Title</td>
-            <td>Description</td>
-            <td>Status</td>
-            <td>Actions</td>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -36,15 +71,41 @@ const Todos = () => {
               <td>{todo.id}</td>
               <td>{todo.title}</td>
               <td>{todo.description}</td>
-              <td>{todo.complete ? 'Completed' : 'Pending'}</td>
               <td>
-                {todo.complete ? (
-                  <button className='btn btn-primary btn-sm'>Mark Incomplete</button>
+                <span
+                  className={`badge rounded-pill ${todo.completed ? 'text-bg-success' : 'text-bg-warning'}`}
+                >
+                  {todo.completed ? 'Completed' : 'Pending'}
+                </span>
+              </td>
+              <td>
+                {todo.completed ? (
+                  <button
+                    className='btn btn-primary btn-sm'
+                    onClick={() => handleInCompleteTodo(todo.id)}
+                  >
+                    Mark Incomplete
+                  </button>
                 ) : (
-                  <button className='btn btn-primary btn-sm'>Mark Complete</button>
+                  <button
+                    className='btn btn-primary btn-sm'
+                    onClick={() => handleCompleteTodo(todo.id)}
+                  >
+                    Mark Complete
+                  </button>
                 )}
-                <button className='btn btn-info btn-sm mx-1'>Update</button>
-                <button className='btn btn-danger btn-sm'>Delete</button>
+                <button
+                  className='btn btn-info btn-sm mx-1'
+                  onClick={() => navigator(`/edit-todo/${todo.id}`)}
+                >
+                  Update
+                </button>
+                <button
+                  className='btn btn-danger btn-sm'
+                  onClick={() => handleDeleteTodo(todo.id)}
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
