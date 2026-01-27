@@ -5,6 +5,8 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Todo from './components/Todo';
+import Register from './components/Register';
+import Login from './components/Login';
 
 function App() {
   return (
@@ -27,6 +29,14 @@ function App() {
           <Route
             path='/edit-todo/:id'
             element={<Todo />}
+          />
+          <Route
+            path='/register'
+            element={<Register />}
+          />
+          <Route
+            path='/login'
+            element={<Login />}
           />
         </Routes>
       </div>
