@@ -3,10 +3,17 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import Homepage from './pages/Homepage';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Todo from './components/Todo';
 import Register from './components/Register';
 import Login from './components/Login';
+import { isUserLoggedIn } from './services/AuthService';
+
+function AuthenticatedRoute({ children }) {
+  const isAuth = isUserLoggedIn();
+  if (isAuth) return children;
+  return <Navigate to='/login' />;
+}
 
 function App() {
   return (
@@ -20,15 +27,27 @@ function App() {
           />
           <Route
             path='/todos'
-            element={<Homepage />}
+            element={
+              <AuthenticatedRoute>
+                <Homepage />
+              </AuthenticatedRoute>
+            }
           />
           <Route
             path='/add-todo'
-            element={<Todo />}
+            element={
+              <AuthenticatedRoute>
+                <Todo />
+              </AuthenticatedRoute>
+            }
           />
           <Route
             path='/edit-todo/:id'
-            element={<Todo />}
+            element={
+              <AuthenticatedRoute>
+                <Todo />
+              </AuthenticatedRoute>
+            }
           />
           <Route
             path='/register'
