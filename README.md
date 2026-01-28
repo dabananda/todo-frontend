@@ -1,16 +1,64 @@
-# React + Vite
+# Todo Management System - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
+The **Todo Management Frontend** is a modern Single Page Application (SPA) built with **React** and **Vite**. It provides a user-friendly interface for managing tasks, featuring a responsive design using **Bootstrap** and secure routing for authenticated users.
 
-Currently, two official plugins are available:
+## 🛠 Tech Stack
+* **Framework:** React 19
+* **Build Tool:** Vite
+* **Styling:** Bootstrap 5
+* **Routing:** React Router DOM 7
+* **HTTP Client:** Axios
+* **State Management:** React Hooks (useState, useEffect)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
+* **Responsive UI:** Clean and responsive layout using Bootstrap.
+* **Secure Authentication:** Login and registration forms that integrate with the backend JWT auth.
+* **Protected Routes:** Prevents unauthorized access to todo management pages.
+* **Dynamic Role Handling:** UI elements (like "Add", "Delete", "Update") conditionally render based on the logged-in user's role (Admin vs User).
+* **Task Management:**
+    * View list of all todos with status badges.
+    * Mark tasks as completed or pending.
+    * Add and edit todo forms (Admin only).
 
-## React Compiler
+## 🚀 Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Prerequisites
+* Node.js (v18 or higher recommended)
+* npm (Node Package Manager)
 
-## Expanding the ESLint configuration
+### 1. Installation
+Navigate to the frontend directory and install dependencies:
+```bash
+npm install
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 2. Configuration
+Ensure the backend API URL is correctly set in the service files:
+* **Auth Service:** `src/services/AuthService.js` → `http://localhost:8080/api/auth`
+* **Todo Service:** `src/services/TodoService.js` → `http://localhost:8080/api/todos`
+
+### 3. Run the Development Server
+Start the Vite development server:
+```bash
+npm run dev
+```
+
+The application will typically run on `http://localhost:5173` (check the terminal output for the exact port).
+
+## 📂 Project Structure
+```
+src/
+├── components/       # Reusable UI components (Header, Footer, Todo Form, List)
+├── pages/           # Page layouts (Homepage)
+├── services/        # API calls (AuthService, TodoService)
+├── App.jsx          # Main application component with routing
+└── main.jsx         # Entry point
+```
+
+## 🔑 Usage
+1. **Register:** Create a new account via the "Register" link in the navbar.
+2. **Login:** Log in with your credentials.
+3. **Manage Todos:**
+   * Users can view the list and toggle completion status.
+   * Admins (users with `ROLE_ADMIN`) have additional buttons to add, update, and delete tasks.
