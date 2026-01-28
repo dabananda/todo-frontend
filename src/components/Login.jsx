@@ -8,15 +8,15 @@ const Login = () => {
 
   const navigator = useNavigate();
 
- async function handleLogin(e) {
+  async function handleLogin(e) {
     e.preventDefault();
     await loginUser(username, password)
-      .then(() => {
-        const token = `Basic ${window.btoa(`${username}:${password}`)}`;
+      .then((response) => {
+        const token = `Bearer ${response.data.accessToken}`;
         setToken(token);
-        saveLoggedInUser(username)
+        saveLoggedInUser(username);
         navigator('/todos');
-        window.location.reload(false)
+        window.location.reload(false);
       })
       .catch((error) => console.error(error));
   }
