@@ -13,8 +13,9 @@ const Login = () => {
     await loginUser(username, password)
       .then((response) => {
         const token = `Bearer ${response.data.accessToken}`;
+        const role = response.data.role;
         setToken(token);
-        saveLoggedInUser(username);
+        saveLoggedInUser(username, role);
         navigator('/todos');
         window.location.reload(false);
       })

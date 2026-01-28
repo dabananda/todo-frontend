@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import { completeTodo, deleteTodo, getTodos, inCompleteTodo } from '../services/TodoService';
 import { useNavigate } from 'react-router-dom';
+import { isAdminUser } from '../services/AuthService';
 
 const Todos = () => {
   const [todos, setTodos] = useState([]);
 
   const navigator = useNavigate();
+
+  const isAdmin = isAdminUser();
 
   function getAllTodos() {
     getTodos()
@@ -48,12 +51,14 @@ const Todos = () => {
     <div>
       <div className='d-flex justify-content-between mb-2'>
         <h3>All Todos</h3>
-        <button
-          className='btn btn-primary'
-          onClick={() => navigator('/add-todo')}
-        >
-          Add Todo
-        </button>
+        {isAdmin && (
+          <button
+            className='btn btn-primary'
+            onClick={() => navigator('/add-todo')}
+          >
+            Add Todo
+          </button>
+        )}
       </div>
       <table className='table border table-striped'>
         <thead>
@@ -94,18 +99,23 @@ const Todos = () => {
                     Mark Complete
                   </button>
                 )}
-                <button
-                  className='btn btn-info btn-sm mx-1'
-                  onClick={() => navigator(`/edit-todo/${todo.id}`)}
-                >
-                  Update
-                </button>
-                <button
-                  className='btn btn-danger btn-sm'
-                  onClick={() => handleDeleteTodo(todo.id)}
-                >
-                  Delete
-                </button>
+                {isAdmin && (
+                  <button
+                    className='btn btn-info btn-sm mx-1'
+                    onClick={() => navigator(`/edit-todo/${todo.id}`)}
+                  >
+                    Update
+                  </button>
+                )}
+
+                {isAdmin && (
+                  <button
+                    className='btn btn-danger btn-sm'
+                    onClick={() => handleDeleteTodo(todo.id)}
+                  >
+                    Delete
+                  </button>
+                )}
               </td>
             </tr>
           ))}
